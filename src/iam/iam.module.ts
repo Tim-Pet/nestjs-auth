@@ -8,8 +8,9 @@ import { User } from 'src/users/entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import jwtConfig from './config/jwt.config';
 import { ConfigModule } from '@nestjs/config';
-import { AccessTokenGuard } from './authentication/guards/access-token/access-token.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { AuthenticationGuard } from './authentication/guards/authentication/authentication.guard';
+import { AccessTokenGuard } from './authentication/guards/access-token/access-token.guard';
 
 @Module({
   imports: [
@@ -24,8 +25,9 @@ import { APP_GUARD } from '@nestjs/core';
     },
     {
       provide: APP_GUARD,
-      useClass: AccessTokenGuard,
+      useClass: AuthenticationGuard,
     },
+    AccessTokenGuard,
     AuthenticationService,
   ],
   controllers: [AuthenticationController],
