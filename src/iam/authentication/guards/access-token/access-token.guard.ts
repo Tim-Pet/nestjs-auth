@@ -34,11 +34,13 @@ export class AccessTokenGuard implements CanActivate {
     } catch {
       throw new UnauthorizedException();
     }
+
     return true;
   }
 
-  private extractTokenFromCookie(request: Request) {
+  private extractTokenFromCookie(request: Request): string | undefined {
     const cookie = request.headers.cookie;
+    if (!cookie) return undefined;
     const accessToken = cookie
       .split(';')
       .find((c) => c.trim().startsWith('accessToken='));
